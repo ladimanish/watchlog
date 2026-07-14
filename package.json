@@ -9,7 +9,7 @@
     "test:coverage": "jest --coverage"
   },
   "keywords": [],
-  "author": "",
+  "author": "Ladi Manish",
   "license": "ISC",
   "dependencies": {
     "typescript": "^5.2.2"
