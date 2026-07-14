@@ -1,0 +1,92 @@
+import type { WatchItem } from '../types/watchlog';
+
+/**
+ * Realistic watchlist data for tests.
+ * Covers all statuses, both media types, multiple genres.
+ */
+export const mockWatchlist: WatchItem[] = [
+    {
+        id: '1',
+        externalId: '550',
+        type: 'movie',
+        title: 'Fight Club',
+        genres: ['Drama', 'Thriller'],
+        status: 'done',
+        rating: 5,
+        dateAdded: '2026-01-10T10:00:00Z',
+        dateCompleted: '2026-01-15T10:00:00Z',
+        releaseYear: 1999,
+        posterUrl: null,
+    },
+    {
+        id: '2',
+        externalId: '27205',
+        type: 'movie',
+        title: 'Inception',
+        genres: ['Sci-Fi', 'Action'],
+        status: 'watching',
+        rating: null,
+        dateAdded: '2026-02-01T10:00:00Z',
+        dateCompleted: null,
+        releaseYear: 2010,
+        posterUrl: null,
+    },
+    {
+        id: '3',
+        externalId: 'OL82563W',
+        type: 'book',
+        title: 'Dune',
+        author: 'Frank Herbert',
+        genres: ['Sci-Fi'],
+        status: 'reading',
+        rating: null,
+        dateAdded: '2026-02-05T10:00:00Z',
+        dateCompleted: null,
+        publishYear: 1965,
+        coverUrl: null,
+    },
+    {
+        id: '4',
+        externalId: 'OL45883W',
+        type: 'book',
+        title: 'The Great Gatsby',
+        author: 'F. Scott Fitzgerald',
+        genres: ['Fiction', 'Classic'],
+        status: 'done',
+        rating: 4,
+        dateAdded: '2026-01-20T10:00:00Z',
+        dateCompleted: '2026-01-25T10:00:00Z',
+        publishYear: 1925,
+        coverUrl: null,
+    },
+    {
+        id: '5',
+        externalId: '157336',
+        type: 'movie',
+        title: 'Interstellar',
+        genres: ['Sci-Fi', 'Drama'],
+        status: 'want',
+        rating: null,
+        dateAdded: '2026-03-01T10:00:00Z',
+        dateCompleted: null,
+        releaseYear: 2014,
+        posterUrl: null,
+    },
+    {
+        id: '6',
+        externalId: 'OL2167054W',
+        type: 'book',
+        title: 'Project Hail Mary',
+        author: 'Andy Weir',
+        genres: ['Sci-Fi'],
+        status: 'want',
+        rating: null,
+        dateAdded: '2026-03-05T10:00:00Z',
+        dateCompleted: null,
+        publishYear: 2021,
+        coverUrl: null,
+    },
+];
+
+/** Empty list — useful for edge-case tests */
+export const emptyWatchlist: WatchItem[] = [];
