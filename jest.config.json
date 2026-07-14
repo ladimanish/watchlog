@@ -1,0 +1,12 @@
+{
+  "preset": "ts-jest",
+  "testEnvironment": "node",
+  "roots": ["<rootDir>/src"],
+  "testMatch": ["**/*.test.ts"],
+  "testPathIgnorePatterns": ["/node_modules/", "/dist/"],
+  "collectCoverageFrom": [
+    "src/**/*.ts",
+    "!src/**/*.d.ts",
+    "!src/__fixtures__/**"
+  ]
+}
