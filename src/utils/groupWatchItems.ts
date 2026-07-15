@@ -1,13 +1,6 @@
 import type { WatchItem } from '../types/watchlog';
 
-/**
- * Group watchlist items by genre.
- * An item with multiple genres appears in each matching group.
- *
- * Example:
- *   groupByGenre([{ genres: ['Sci-Fi', 'Drama'], ... }])
- *   → { 'Sci-Fi': [...], 'Drama': [...] }
- */
+/** Group watchlist items by genre. Multi-genre items appear in each group. */
 export const groupByGenre = (
   items: WatchItem[],
 ): Record<string, WatchItem[]> => {
@@ -22,19 +15,4 @@ export const groupByGenre = (
     });
     return groups;
   }, {});
-};
-
-/**
- * Get sorted genre names from a watchlist.
- * Useful for building filter dropdowns in Stage 2 (React).
- */
-export const getUniqueGenres = (items: WatchItem[]): string[] => {
-  if (!items?.length) return [];
-
-  const genreSet = new Set<string>();
-  items.forEach((item) => {
-    item.genres.forEach((genre) => genreSet.add(genre));
-  });
-
-  return Array.from(genreSet).sort((a, b) => a.localeCompare(b));
 };

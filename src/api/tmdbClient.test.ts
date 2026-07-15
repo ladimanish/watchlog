@@ -5,13 +5,12 @@ import {
   import { TmdbApiError } from './types';
   
   const mockTmdbResult = {
-    id: 27205,
-    title: 'Inception',
-    genre_ids: [878, 28],
-    release_date: '2010-07-16',
-    poster_path: '/poster.jpg',
-    overview: 'A mind-bending thriller',
-  };
+  id: 27205,
+  title: 'Inception',
+  genre_ids: [878, 28],
+  release_date: '2010-07-16',
+  poster_path: '/poster.jpg',
+};
   
   describe('mapTmdbResultToWatchItem', () => {
     it('maps TMDB fields to MovieWatchItem', () => {
@@ -65,13 +64,7 @@ import {
       process.env.TMDB_API_KEY = 'test-key';
       global.fetch = jest.fn().mockResolvedValue({
         ok: true,
-        json: () =>
-          Promise.resolve({
-            page: 1,
-            results: [mockTmdbResult],
-            total_results: 1,
-            total_pages: 1,
-          }),
+        json: () => Promise.resolve({ results: [mockTmdbResult] }),
       });
   
       const results = await searchMovies('Inception');
@@ -96,7 +89,7 @@ import {
       process.env.TMDB_API_KEY = 'test-key';
       global.fetch = jest.fn().mockResolvedValue({
         ok: true,
-        json: () => Promise.resolve({ results: [], page: 1, total_results: 0, total_pages: 0 }),
+        json: () => Promise.resolve({ results: [] }),
       });
   
       await searchMovies('fight club');

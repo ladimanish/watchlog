@@ -7,27 +7,13 @@ Part of the [Ui Dev Learning Path V2](https://cursor.com/dashboard/shared-canvas
 ## Stage 1 deliverables
 
 - [x] TypeScript data model (movies + books, status flow, ratings)
-- [x] Filter utilities (by status, type, genre)
-- [x] Sort utilities (by rating, date added, title)
+- [x] Filter by status
+- [x] Sort by rating
 - [x] Group by genre
-- [x] Statistics summary (totals, completion rate, average rating)
-- [x] TMDB movie search API integration
-- [x] Unit tests with realistic mock data
-- [x] TMDB movie search API integration
-- [x] Open Library book search API integration
-
-## APIs used
-
-| Media | API | Key required |
-|-------|-----|--------------|
-| Movies | [TMDB](https://developer.themoviedb.org) | Yes — add to `.env` |
-| Books | [Open Library](https://openlibrary.org/developers/api) | No |
-
-## Tech stack
-
-- TypeScript 5.2 (strict mode)
-- Jest 29 + ts-jest
-- TMDB API (movie search)
+- [x] Statistics (totals, completion rate, average rating)
+- [x] TMDB movie search API
+- [x] Open Library book search API
+- [x] Unit tests with mock data
 
 ## Setup
 
@@ -36,3 +22,11 @@ npm install
 cp .env.example .env   # add your TMDB API key
 npm test
 npm run build
+```
+
+## APIs
+
+| Media | API | Key required |
+|-------|-----|--------------|
+| Movies | [TMDB](https://developer.themoviedb.org) | Yes — `.env` |
+| Books | [Open Library](https://openlibrary.org/developers/api) | No |
