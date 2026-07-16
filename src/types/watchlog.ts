@@ -7,7 +7,6 @@ export type WatchStatus = 'want' | 'watching' | 'reading' | 'done';
 
 export type MediaType = 'movie' | 'book';
 
-/** Valid star ratings — only for completed items */
 export type StarRating = 1 | 2 | 3 | 4 | 5;
 
 /** Fields every watchlist item shares */
@@ -38,8 +37,6 @@ export interface BookWatchItem extends WatchItemBase {
 export type WatchItem = MovieWatchItem | BookWatchItem;
 
 export type Watchlist = WatchItem[];
-
-/** Stage 1 statistics summary */
 export interface WatchlistStats {
   totalItems: number;
   completedCount: number;

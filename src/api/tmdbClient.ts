@@ -32,7 +32,7 @@ const mapGenreIds = (genreIds: number[]): string[] =>
     .map((id) => GENRE_MAP[id])
     .filter((name): name is string => name !== undefined);
 
-/** Map a raw TMDB result to your domain MovieWatchItem */
+/** Map a raw TMDB result to MovieWatchItem */
 export const mapTmdbResultToWatchItem = (
   result: TmdbMovieResult,
 ): MovieWatchItem => ({
