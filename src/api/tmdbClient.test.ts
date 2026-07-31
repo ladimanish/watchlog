@@ -96,6 +96,7 @@ import {
   
       expect(global.fetch).toHaveBeenCalledWith(
         expect.stringContaining('query=fight%20club'),
+        { signal: undefined },
       );
     });
   });

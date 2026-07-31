@@ -87,6 +87,7 @@ import {
   
       expect(global.fetch).toHaveBeenCalledWith(
         expect.stringContaining('q=great%20gatsby'),
+        { signal: undefined },
       );
     });
   });

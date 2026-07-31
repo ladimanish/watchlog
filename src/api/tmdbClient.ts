@@ -52,10 +52,14 @@ export const mapTmdbResultToWatchItem = (
 });
 
 const getApiKey = (): string => {
-  const key = process.env.TMDB_API_KEY;
+  const key = process.env.TMDB_API_KEY ?? process.env.VITE_TMDB_API_KEY;
+
   if (!key) {
-    throw new TmdbApiError('TMDB_API_KEY environment variable is required');
+    throw new TmdbApiError(
+      'TMDB API key is required. Set VITE_TMDB_API_KEY in .env',
+    );
   }
+
   return key;
 };
 
@@ -66,7 +70,10 @@ const getApiKey = (): string => {
  * @returns Array of MovieWatchItem ready to add to watchlist
  * @throws TmdbApiError on missing API key or HTTP failure
  */
-export const searchMovies = async (query: string): Promise<MovieWatchItem[]> => {
+export const searchMovies = async (
+  query: string,
+  signal?: AbortSignal,
+): Promise<MovieWatchItem[]> => {
   const trimmed = query?.trim();
   if (!trimmed) return [];
 
@@ -75,7 +82,7 @@ export const searchMovies = async (query: string): Promise<MovieWatchItem[]> => 
     `${TMDB_BASE_URL}/search/movie` +
     `?api_key=${apiKey}&query=${encodeURIComponent(trimmed)}`;
 
-  const response = await fetch(url);
+  const response = await fetch(url, { signal });
 
   if (!response.ok) {
     throw new TmdbApiError(

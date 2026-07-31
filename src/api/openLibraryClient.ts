@@ -40,7 +40,10 @@ export const mapOpenLibraryDocToWatchItem = (
  * Search Open Library for books by title.
  * No API key required.
  */
-export const searchBooks = async (query: string): Promise<BookWatchItem[]> => {
+export const searchBooks = async (
+  query: string,
+  signal?: AbortSignal,
+): Promise<BookWatchItem[]> => {
   const trimmed = query?.trim();
   if (!trimmed) return [];
 
@@ -48,7 +51,7 @@ export const searchBooks = async (query: string): Promise<BookWatchItem[]> => {
     `${OPEN_LIBRARY_BASE}/search.json` +
     `?q=${encodeURIComponent(trimmed)}&limit=20`;
 
-  const response = await fetch(url);
+  const response = await fetch(url, { signal });
 
   if (!response.ok) {
     throw new OpenLibraryApiError(
