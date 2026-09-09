@@ -12,15 +12,21 @@ describe('filterByStatus', () => {
 
   it('filters items with want status', () => {
     const result = filterByStatus(mockWatchlist, 'want');
-    expect(result).toHaveLength(2);
-    expect(result.every((i) => i.status === 'want')).toBe(true);
+    expect(result).toHaveLength(3);
+    expect(result.map((i) => i.title)).toEqual(
+      expect.arrayContaining([
+        'Interstellar',
+        'The Dark Knight',
+        'Project Hail Mary',
+      ]),
+    );
   });
 
   it('filters items with done status', () => {
     const result = filterByStatus(mockWatchlist, 'done');
     expect(result).toHaveLength(2);
     expect(result.map((i) => i.title)).toEqual(
-      expect.arrayContaining(['Fight Club', 'The Great Gatsby']),
+      expect.arrayContaining(['The Great Gatsby', 'Fight Club']),
     );
   });
 });

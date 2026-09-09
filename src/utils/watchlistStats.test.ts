@@ -12,7 +12,7 @@ describe('calculateStats', () => {
   });
 
   it('counts total items correctly', () => {
-    expect(calculateStats(mockWatchlist).totalItems).toBe(6);
+    expect(calculateStats(mockWatchlist).totalItems).toBe(8);
   });
 
   it('counts completed items correctly', () => {
@@ -20,7 +20,7 @@ describe('calculateStats', () => {
   });
 
   it('calculates completion rate as percentage', () => {
-    expect(calculateStats(mockWatchlist).completionRate).toBeCloseTo(33.33, 1);
+    expect(calculateStats(mockWatchlist).completionRate).toBeCloseTo(25, 1);
   });
 
   it('calculates average rating from completed rated items', () => {

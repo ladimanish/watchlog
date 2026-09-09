@@ -4,6 +4,14 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import ErrorBoundary from './components/ErrorBoundary';
 import { WatchlistProvider } from './context/WatchlistContext';
+import './index.css';
+
+const storedTheme = localStorage.getItem('watchlog-theme');
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+  document.documentElement.classList.add('dark');
+}
 
 const rootElement = document.getElementById('root');
 

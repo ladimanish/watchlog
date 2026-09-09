@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --surface-default: 255 255 255;
+    --surface-muted: 245 247 250;
+    --surface-elevated: 255 255 255;
+    --border-default: 226 232 240;
+    --text-default: 15 23 42;
+    --text-muted: 100 116 139;
+    --text-on-color: 255 255 255;
+    --component-primary: 99 102 241;
+    --component-primary-hover: 79 70 229;
+    --accent-violet: 139 92 246;
+    --accent-amber: 245 158 11;
+    --accent-rose: 244 63 94;
+    --semantic-error: 225 29 72;
+    --semantic-error-muted: 255 241 242;
+    --semantic-success: 16 185 129;
+    --semantic-success-muted: 236 253 245;
+    --semantic-focus: 99 102 241;
+    --shadow-color: 15 23 42;
+    --gradient-start: 238 242 255;
+    --gradient-end: 250 245 255;
+  }
+
+  .dark {
+    --surface-default: 17 24 39;
+    --surface-muted: 11 17 32;
+    --surface-elevated: 30 41 59;
+    --border-default: 51 65 85;
+    --text-default: 248 250 252;
+    --text-muted: 148 163 184;
+    --text-on-color: 255 255 255;
+    --component-primary: 129 140 248;
+    --component-primary-hover: 165 180 252;
+    --accent-violet: 167 139 250;
+    --accent-amber: 251 191 36;
+    --accent-rose: 251 113 133;
+    --semantic-error: 251 113 133;
+    --semantic-error-muted: 76 5 25;
+    --semantic-success: 52 211 153;
+    --semantic-success-muted: 6 39 30;
+    --semantic-focus: 129 140 248;
+    --shadow-color: 0 0 0;
+    --gradient-start: 11 17 32;
+    --gradient-end: 17 24 39;
+  }
+
+  body {
+    @apply min-h-screen bg-surface-muted font-sans text-text-default antialiased;
+    background-image: radial-gradient(
+        ellipse 80% 50% at 50% -20%,
+        rgb(var(--component-primary) / 0.12),
+        transparent
+      ),
+      radial-gradient(
+        ellipse 60% 40% at 100% 0%,
+        rgb(var(--accent-violet) / 0.08),
+        transparent
+      );
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply rounded-2xl border border-border/60 bg-surface-default/80 p-6 shadow-card backdrop-blur-xl;
+  }
+
+  .section-title {
+    @apply text-lg font-bold tracking-tight text-text-default;
+  }
+
+  .section-subtitle {
+    @apply text-sm text-text-muted;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-xl bg-component-primary px-4 py-2.5 text-sm font-semibold text-text-onColor shadow-sm transition-all;
+    @apply hover:bg-component-primary-hover hover:shadow-glow;
+    @apply focus:outline-none focus:ring-2 focus:ring-semantic-focus focus:ring-offset-2 focus:ring-offset-surface-muted;
+    @apply disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:shadow-sm;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-xl border border-border bg-surface-default px-4 py-2.5 text-sm font-medium text-text-default shadow-sm transition-all;
+    @apply hover:border-component-primary/30 hover:bg-surface-muted;
+    @apply focus:outline-none focus:ring-2 focus:ring-semantic-focus focus:ring-offset-2 focus:ring-offset-surface-muted;
+    @apply disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center rounded-xl px-3 py-2 text-sm font-medium text-text-muted transition-colors;
+    @apply hover:bg-surface-muted hover:text-text-default;
+    @apply focus:outline-none focus:ring-2 focus:ring-semantic-focus;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center rounded-xl border border-semantic-error/30 bg-semantic-error-muted/50 px-3 py-2 text-sm font-medium text-semantic-error transition-all;
+    @apply hover:border-semantic-error/50 hover:bg-semantic-error-muted;
+    @apply focus:outline-none focus:ring-2 focus:ring-semantic-focus;
+  }
+
+  .input-field {
+    @apply w-full rounded-xl border border-border bg-surface-default px-4 py-2.5 text-sm text-text-default shadow-sm transition-colors;
+    @apply placeholder:text-text-muted/70;
+    @apply focus:border-component-primary/50 focus:outline-none focus:ring-2 focus:ring-semantic-focus/30;
+  }
+
+  .select-field {
+    @apply rounded-xl border border-border bg-surface-default px-4 py-2.5 text-sm text-text-default shadow-sm transition-colors;
+    @apply focus:border-component-primary/50 focus:outline-none focus:ring-2 focus:ring-semantic-focus/30;
+  }
+}

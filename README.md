@@ -30,6 +30,15 @@ Personal Movie & Book Watchlist — built across the [Ui Dev Learning Path V2](h
 - Invalid item ids and unknown routes handled gracefully
 - Add from search navigates to detail; remove from detail returns home
 
+## Stage 4 — Tailwind CSS styling
+
+- Tailwind CSS with semantic design tokens (Fuse UI–style naming)
+- CSS variables for light/dark themes (`surface-*`, `text-*`, `component-*`, `semantic-*`)
+- `cn()` utility (`clsx` + `tailwind-merge`) for conditional classes
+- All components migrated from plain CSS to Tailwind utilities
+- Responsive stats grid, focus rings, and dark mode toggle in nav
+- Removed `App.css` — styling lives in components + `index.css`
+
 ### Routes
 
 | Path | Page | Description |
@@ -64,11 +73,11 @@ src/
 ├── api/           # TMDB + Open Library clients
 ├── components/    # React UI (cards, layout, nav)
 ├── context/       # WatchlistProvider + useWatchlist
-├── hooks/         # useSearchMedia
+├── hooks/         # useSearchMedia, useTheme
 ├── pages/         # Route-level screens (Stage 3)
 ├── routes/        # AppRoutes configuration (Stage 3)
 ├── types/         # Domain types
-├── utils/         # Pure functions + routePaths (Stage 1 + 3)
+├── utils/         # Pure functions, routePaths, cn (Stage 1 + 3 + 4)
 └── __fixtures__/  # Test data
 ```
 

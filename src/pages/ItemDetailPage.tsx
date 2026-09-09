@@ -20,12 +20,12 @@ const ItemDetailPage = () => {
 
   if (!id || !item) {
     return (
-      <section className="detail-panel">
-        <h2>Details</h2>
-        <p className="detail-panel__empty">
-          Item not found. It may have been removed or the link is invalid.
+      <section className="glass-panel py-12 text-center">
+        <h2 className="section-title mb-2">Item not found</h2>
+        <p className="section-subtitle mx-auto mb-8 max-w-sm">
+          It may have been removed from your watchlist or the link is invalid.
         </p>
-        <Link to={ROUTES.home} className="not-found__link">
+        <Link to={ROUTES.home} className="btn-primary">
           Back to watchlist
         </Link>
       </section>

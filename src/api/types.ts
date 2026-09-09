@@ -11,6 +11,19 @@ export interface TmdbSearchResponse {
   results: TmdbMovieResult[];
 }
 
+/** Raw shape returned by TMDB /movie/{id} endpoint */
+export interface TmdbMovieDetails {
+  id: number;
+  poster_path: string | null;
+}
+
+/** Raw shape from Open Library /works/{id}.json */
+export interface OpenLibraryWork {
+  covers?: number[];
+  type?: { key: string };
+  location?: string;
+}
+
 /** Thrown when TMDB API call fails */
 export class TmdbApiError extends Error {
     constructor(

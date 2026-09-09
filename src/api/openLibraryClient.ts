@@ -1,5 +1,5 @@
 import type { BookWatchItem } from '../types/watchlog';
-import type { OpenLibraryDoc, OpenLibrarySearchResponse } from './types';
+import type { OpenLibraryDoc, OpenLibrarySearchResponse, OpenLibraryWork } from './types';
 import { OpenLibraryApiError } from './types';
 
 const OPEN_LIBRARY_BASE = 'https://openlibrary.org';
@@ -62,4 +62,31 @@ export const searchBooks = async (
 
   const data: OpenLibrarySearchResponse = await response.json();
   return data.docs.map(mapOpenLibraryDocToWatchItem);
+};
+
+/**
+ * Fetch cover URL for a book by Open Library work id (e.g. OL82563W).
+ * Returns null when the request fails or no cover exists.
+ */
+export const fetchBookCoverUrl = async (
+  externalId: string,
+  signal?: AbortSignal,
+): Promise<string | null> => {
+  const url = `${OPEN_LIBRARY_BASE}/works/${externalId}.json`;
+  const response = await fetch(url, { signal });
+
+  if (!response.ok) {
+    return null;
+  }
+
+  const data: OpenLibraryWork = await response.json();
+
+  if (data.type?.key === '/type/redirect' && data.location) {
+    const redirectId = extractWorkId(data.location);
+    return fetchBookCoverUrl(redirectId, signal);
+  }
+
+  const coverId = data.covers?.[0];
+
+  return coverId ? `${COVER_BASE}/${coverId}-M.jpg` : null;
 };

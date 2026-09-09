@@ -1,5 +1,5 @@
 import type { MovieWatchItem } from '../types/watchlog';
-import type { TmdbMovieResult, TmdbSearchResponse } from './types';
+import type { TmdbMovieDetails, TmdbMovieResult, TmdbSearchResponse } from './types';
 import { TmdbApiError } from './types';
 
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
@@ -93,4 +93,34 @@ export const searchMovies = async (
 
   const data: TmdbSearchResponse = await response.json();
   return data.results.map(mapTmdbResultToWatchItem);
+};
+
+/**
+ * Fetch poster URL for a movie by TMDB id.
+ * Returns null when the API key is missing, the request fails, or no poster exists.
+ */
+export const fetchMoviePosterUrl = async (
+  externalId: string,
+  signal?: AbortSignal,
+): Promise<string | null> => {
+  let apiKey: string;
+
+  try {
+    apiKey = getApiKey();
+  } catch {
+    return null;
+  }
+
+  const url = `${TMDB_BASE_URL}/movie/${externalId}?api_key=${apiKey}`;
+  const response = await fetch(url, { signal });
+
+  if (!response.ok) {
+    return null;
+  }
+
+  const data: TmdbMovieDetails = await response.json();
+
+  return data.poster_path
+    ? `${TMDB_IMAGE_BASE}${data.poster_path}`
+    : null;
 };

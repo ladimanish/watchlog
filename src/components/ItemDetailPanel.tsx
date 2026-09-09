@@ -7,10 +7,12 @@ import {
 import { useWatchlist } from '../context/WatchlistContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../utils/routePaths';
+import StatusBadge from './StatusBadge';
+import StarRatingInput from './StarRatingInput';
+import { cn } from '../utils/cn';
 
 const MOVIE_STATUSES: WatchStatus[] = ['want', 'watching', 'done'];
 const BOOK_STATUSES: WatchStatus[] = ['want', 'reading', 'done'];
-const STAR_RATINGS: StarRating[] = [1, 2, 3, 4, 5];
 
 const formatStatusLabel = (status: WatchStatus): string =>
   status.charAt(0).toUpperCase() + status.slice(1);
@@ -21,9 +23,11 @@ const ItemDetailPanel = () => {
 
   if (!selectedItem) {
     return (
-      <section className="detail-panel">
-        <h2>Details</h2>
-        <p className="detail-panel__empty">Select an item to see details</p>
+      <section className="glass-panel py-12 text-center">
+        <h2 className="section-title mb-2">Select an item</h2>
+        <p className="section-subtitle">
+          Choose something from your watchlist to see full details
+        </p>
       </section>
     );
   }
@@ -42,119 +46,145 @@ const ItemDetailPanel = () => {
     });
   };
 
-  const handleRatingChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = event.target.value;
-
-    updateItem(selectedItem.id, {
-      rating: value === '' ? null : (Number(value) as StarRating),
-    });
+  const handleRatingChange = (rating: StarRating | null) => {
+    updateItem(selectedItem.id, { rating });
   };
 
   const handleRemove = () => {
-    if (!selectedItem) {
-      return;
-    }
-
     removeItem(selectedItem.id);
     navigate(ROUTES.home);
   };
 
   return (
-    <section className="detail-panel">
-      <h2>Details</h2>
+    <section className="glass-panel overflow-hidden !p-0">
+      <div className="grid lg:grid-cols-[280px_1fr]">
+        <div className="relative bg-surface-muted">
+          {imageUrl ? (
+            <img
+              className="h-64 w-full object-cover lg:h-full lg:min-h-[420px]"
+              src={imageUrl}
+              alt={`${selectedItem.title} cover`}
+            />
+          ) : (
+            <div className="flex h-64 w-full flex-col items-center justify-center gap-3 bg-gradient-to-br from-surface-muted to-surface-elevated lg:min-h-[420px]">
+              <span className="text-sm text-text-muted">No cover available</span>
+            </div>
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-black/10" />
+        </div>
 
-      <Link to={ROUTES.home} className="detail-panel__back">
-        ← Back to watchlist
-      </Link>
+        <div className="flex flex-col p-6 sm:p-8">
+          <Link
+            to={ROUTES.home}
+            className="mb-4 inline-flex w-fit items-center gap-1 text-sm font-semibold text-component-primary transition-colors hover:text-component-primary-hover"
+          >
+            ← Back to watchlist
+          </Link>
 
-      <div className="detail-panel__content">
-        {imageUrl ? (
-          <img
-            className="detail-panel__image"
-            src={imageUrl}
-            alt={selectedItem.title}
-          />
-        ) : (
-          <div className="detail-panel__image detail-panel__placeholder">
-            No image
+          <div className="mb-3 flex flex-wrap items-center gap-2">
+            <StatusBadge status={selectedItem.status} />
+            <span className="rounded-full bg-surface-muted px-2.5 py-0.5 text-xs font-semibold text-text-muted">
+              {isMovieItem(selectedItem) ? 'Movie' : 'Book'}
+            </span>
           </div>
-        )}
 
-        <h3 className="detail-panel__title">{selectedItem.title}</h3>
+          <h2 className="mb-4 text-2xl font-bold leading-tight text-text-default sm:text-3xl">
+            {selectedItem.title}
+          </h2>
 
-        <p className="detail-panel__meta">
-          Type: {isMovieItem(selectedItem) ? 'Movie' : 'Book'}
-        </p>
+          <dl className="mb-6 grid gap-3 text-sm sm:grid-cols-2">
+            {isBookItem(selectedItem) && (
+              <div>
+                <dt className="text-text-muted">Author</dt>
+                <dd className="font-semibold text-text-default">
+                  {selectedItem.author}
+                </dd>
+              </div>
+            )}
 
-        {isBookItem(selectedItem) && (
-          <p className="detail-panel__meta">Author: {selectedItem.author}</p>
-        )}
+            {isMovieItem(selectedItem) && (
+              <div>
+                <dt className="text-text-muted">Release year</dt>
+                <dd className="font-semibold text-text-default">
+                  {selectedItem.releaseYear}
+                </dd>
+              </div>
+            )}
 
-        {isMovieItem(selectedItem) && (
-          <p className="detail-panel__meta">
-            Release year: {selectedItem.releaseYear}
-          </p>
-        )}
+            {isBookItem(selectedItem) && selectedItem.publishYear !== null && (
+              <div>
+                <dt className="text-text-muted">Published</dt>
+                <dd className="font-semibold text-text-default">
+                  {selectedItem.publishYear}
+                </dd>
+              </div>
+            )}
 
-        {isBookItem(selectedItem) && selectedItem.publishYear !== null && (
-          <p className="detail-panel__meta">
-            Published: {selectedItem.publishYear}
-          </p>
-        )}
+            <div>
+              <dt className="text-text-muted">Added</dt>
+              <dd className="font-semibold text-text-default">
+                {new Date(selectedItem.dateAdded).toLocaleDateString()}
+              </dd>
+            </div>
 
-        <p className="detail-panel__meta">
-          Genres:{' '}
-          {selectedItem.genres.length > 0
-            ? selectedItem.genres.join(', ')
-            : 'None'}
-        </p>
+            {selectedItem.dateCompleted && (
+              <div>
+                <dt className="text-text-muted">Completed</dt>
+                <dd className="font-semibold text-text-default">
+                  {new Date(selectedItem.dateCompleted).toLocaleDateString()}
+                </dd>
+              </div>
+            )}
+          </dl>
 
-        <p className="detail-panel__meta">
-          Added: {new Date(selectedItem.dateAdded).toLocaleDateString()}
-        </p>
-
-        {selectedItem.dateCompleted && (
-          <p className="detail-panel__meta">
-            Completed:{' '}
-            {new Date(selectedItem.dateCompleted).toLocaleDateString()}
-          </p>
-        )}
-
-        <label className="detail-panel__field">
-          Status
-          <select value={selectedItem.status} onChange={handleStatusChange}>
-            {statusOptions.map((status) => (
-              <option key={status} value={status}>
-                {formatStatusLabel(status)}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        {selectedItem.status === 'done' && (
-          <label className="detail-panel__field">
-            Rating
-            <select
-              value={selectedItem.rating ?? ''}
-              onChange={handleRatingChange}
-            >
-              <option value="">Select rating</option>
-              {STAR_RATINGS.map((rating) => (
-                <option key={rating} value={rating}>
-                  {rating}★
-                </option>
+          {selectedItem.genres.length > 0 && (
+            <div className="mb-6 flex flex-wrap gap-2">
+              {selectedItem.genres.map((genre) => (
+                <span
+                  key={genre}
+                  className="rounded-lg bg-component-primary/10 px-3 py-1 text-xs font-semibold text-component-primary"
+                >
+                  {genre}
+                </span>
               ))}
-            </select>
-          </label>
-        )}
+            </div>
+          )}
 
-        <button
-          type="button"
-          className="watch-item-card__remove detail-panel__remove"
-          onClick={handleRemove}
-        >
-          Remove from watchlist
-        </button>
+          <div className="mt-auto space-y-4">
+            <label className="flex flex-col gap-2 text-sm font-semibold text-text-default">
+              Status
+              <select
+                value={selectedItem.status}
+                onChange={handleStatusChange}
+                className="select-field font-normal"
+              >
+                {statusOptions.map((status) => (
+                  <option key={status} value={status}>
+                    {formatStatusLabel(status)}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            {selectedItem.status === 'done' && (
+              <div className="flex flex-col gap-2">
+                <span className="text-sm font-semibold text-text-default">Rating</span>
+                <StarRatingInput
+                  value={selectedItem.rating}
+                  onChange={handleRatingChange}
+                />
+              </div>
+            )}
+          </div>
+
+          <button
+            type="button"
+            className={cn('btn-danger mt-6 w-fit')}
+            onClick={handleRemove}
+          >
+            Remove from watchlist
+          </button>
+        </div>
       </div>
     </section>
   );
