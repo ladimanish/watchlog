@@ -1,0 +1,53 @@
+{
+  "hero": {
+    "badge": "Your personal library",
+    "tagline": "Track movies you want to watch and books you want to read — all in one beautiful place."
+  },
+  "layout": {
+    "discoverAdd": "Discover & add",
+    "itemDetails": "Item details",
+    "breadcrumbHome": "Home"
+  },
+  "watchlist": {
+    "title": "My Watchlist",
+    "shownCount": "{{shown}} of {{total}} shown",
+    "loadingCovers": " · Loading cover art…",
+    "emptyTitle": "Your watchlist is empty",
+    "emptyDescription": "Discover movies and books, then add them here to track your progress.",
+    "noMatchesTitle": "No items match these filters",
+    "noMatchesDescription": "Try a different filter combination"
+  },
+  "search": {
+    "title": "Discover something new",
+    "subtitle": "Search TMDB for movies or Open Library for books",
+    "placeholder": "Search by title...",
+    "queryLabel": "Search query",
+    "mediaTypeLabel": "Media type",
+    "searching": "Searching…",
+    "searchButton": "Search",
+    "trySearching": "Try searching for",
+    "noResultsTitle": "No results found",
+    "noResultsDescription": "Try a different title or switch between movies and books",
+    "added": "Added \"{{title}}\" to your watchlist",
+    "alreadyAdded": "\"{{title}}\" is already in your watchlist",
+    "noCover": "No cover"
+  },
+  "detail": {
+    "selectTitle": "Select an item",
+    "selectDescription": "Choose something from your watchlist to see full details",
+    "coverAlt": "{{title}} cover",
+    "noCover": "No cover available",
+    "author": "Author",
+    "releaseYear": "Release year",
+    "published": "Published",
+    "added": "Added",
+    "completed": "Completed",
+    "rating": "Rating",
+    "notFoundTitle": "Item not found",
+    "notFoundDescription": "It may have been removed from your watchlist or the link is invalid."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you are looking for does not exist or may have been moved."
+  }
+}

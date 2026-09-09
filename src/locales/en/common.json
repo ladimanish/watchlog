@@ -1,0 +1,64 @@
+{
+  "appName": "WatchLog",
+  "nav": {
+    "main": "Main navigation",
+    "home": "Home",
+    "search": "Search",
+    "language": "Language",
+    "themeLight": "Switch to light mode",
+    "themeDark": "Switch to dark mode",
+    "light": "Light",
+    "dark": "Dark"
+  },
+  "actions": {
+    "add": "Add",
+    "added": "Added",
+    "remove": "Remove from watchlist",
+    "backToWatchlist": "Back to watchlist",
+    "startSearching": "Start searching",
+    "addMore": "+ Add more"
+  },
+  "media": {
+    "movie": "Movie",
+    "book": "Book",
+    "movies": "Movies",
+    "books": "Books"
+  },
+  "status": {
+    "want": "Want to watch",
+    "watching": "Watching",
+    "reading": "Reading",
+    "done": "Completed",
+    "wantShort": "Want",
+    "watchingShort": "Watching",
+    "readingShort": "Reading",
+    "doneShort": "Done",
+    "label": "Status"
+  },
+  "filters": {
+    "all": "All",
+    "allStatus": "All status",
+    "inProgress": "In progress",
+    "filterByType": "Filter by type",
+    "filterByStatus": "Filter by status",
+    "sort": "Sort",
+    "sortRecent": "Recently added",
+    "sortTitle": "Title A–Z",
+    "sortRating": "Highest rated"
+  },
+  "stats": {
+    "ariaLabel": "Watchlist statistics",
+    "total": "Total items",
+    "completed": "Completed",
+    "completionRate": "Completion rate",
+    "averageRating": "Average rating"
+  },
+  "card": {
+    "noCover": "No cover",
+    "viewDetails": "View details for {{title}}"
+  },
+  "footer": {
+    "movieData": "Movie data from",
+    "bookData": "Book data from"
+  }
+}

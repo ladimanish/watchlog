@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import type { WatchItem } from '../types/watchlog';
 import { isBookItem, isMovieItem } from '../types/watchlog';
 import StatusBadge from './StatusBadge';
@@ -16,6 +17,8 @@ const WatchItemCard = ({
   onSelect,
   onRemove,
 }: WatchItemCardProps) => {
+  const { t } = useTranslation('common');
+
   const handleSelect = () => {
     onSelect?.(item.id);
   };
@@ -25,7 +28,7 @@ const WatchItemCard = ({
   };
 
   const imageUrl = isMovieItem(item) ? item.posterUrl : item.coverUrl;
-  const typeLabel = isMovieItem(item) ? 'Movie' : 'Book';
+  const typeLabel = isMovieItem(item) ? t('media.movie') : t('media.book');
 
   return (
     <article
@@ -37,7 +40,7 @@ const WatchItemCard = ({
           ? 'border-component-primary shadow-selected ring-1 ring-component-primary/20'
           : 'border-border/70 hover:border-component-primary/30',
       )}
-      aria-label={`View details for ${item.title}`}
+      aria-label={t('card.viewDetails', { title: item.title })}
     >
       <button
         type="button"
@@ -54,7 +57,7 @@ const WatchItemCard = ({
             />
           ) : (
             <div className="flex h-full w-full flex-col items-center justify-center gap-2 bg-gradient-to-br from-surface-muted to-surface-elevated text-text-muted">
-              <span className="text-xs font-medium">No cover</span>
+              <span className="text-xs font-medium">{t('card.noCover')}</span>
             </div>
           )}
           <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/70 to-transparent" />
@@ -114,7 +117,7 @@ const WatchItemCard = ({
           )}
           onClick={handleRemove}
         >
-          Remove
+          {t('actions.remove')}
         </button>
       )}
     </article>

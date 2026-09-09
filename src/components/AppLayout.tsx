@@ -1,4 +1,5 @@
 import { Link, Outlet, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import StatsBar from './StatsBar';
 import NavBar from './NavBar';
 import AppFooter from './AppFooter';
@@ -9,6 +10,8 @@ import { useWatchlist } from '../hooks/useWatchlist';
 import { cn } from '../utils/cn';
 
 const AppLayout = () => {
+  const { t } = useTranslation('views');
+  const { t: tc } = useTranslation('common');
   const location = useLocation();
   const { selectedItem } = useWatchlist();
   const isHome = location.pathname === ROUTES.home;
@@ -47,19 +50,18 @@ const AppLayout = () => {
                 <div className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-component-primary/20 bg-component-primary/5 px-2.5 py-1">
                   <IconLibrary className="h-3 w-3 text-component-primary" aria-hidden="true" />
                   <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-component-primary">
-                    Your personal library
+                    {t('hero.badge')}
                   </span>
                 </div>
 
                 <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
                   <span className="bg-title-gradient bg-clip-text inline-block pb-1 leading-normal text-transparent">
-                    WatchLog
+                    {tc('appName')}
                   </span>
                 </h1>
 
                 <p className="mt-1.5 max-w-lg text-sm leading-relaxed text-text-muted">
-                  Track movies you want to watch and books you want to read — all
-                  in one beautiful place.
+                  {t('hero.tagline')}
                 </p>
               </div>
 
@@ -75,23 +77,23 @@ const AppLayout = () => {
               >
                 <WatchLogLogo size="sm" />
                 <span className="bg-title-gradient bg-clip-text inline-block pb-0.5 text-xl font-bold leading-normal text-transparent sm:text-2xl">
-                  WatchLog
+                  {tc('appName')}
                 </span>
               </Link>
               {isSearch && (
-                <p className="mt-0.5 text-sm text-text-muted">Discover &amp; add</p>
+                <p className="mt-0.5 text-sm text-text-muted">{t('layout.discoverAdd')}</p>
               )}
               {isDetail && selectedItem && (
                 <nav aria-label="Breadcrumb" className="mt-1 text-sm text-text-muted">
                   <Link to={ROUTES.home} className="hover:text-component-primary">
-                    Home
+                    {t('layout.breadcrumbHome')}
                   </Link>
                   <span className="mx-2">/</span>
                   <span className="text-text-default">{selectedItem.title}</span>
                 </nav>
               )}
               {isDetail && !selectedItem && (
-                <p className="mt-0.5 text-sm text-text-muted">Item details</p>
+                <p className="mt-0.5 text-sm text-text-muted">{t('layout.itemDetails')}</p>
               )}
             </div>
           </header>

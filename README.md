@@ -57,6 +57,15 @@ Personal Movie & Book Watchlist — built across the [Ui Dev Learning Path V2](h
 - `WatchlistImageEnrichment` reads store actions directly (no Redux `Provider`)
 - Store unit tests for watchlist mutations and preference updates
 
+## Stage 7 — Internationalization (i18next)
+
+- `i18next` + `react-i18next` with namespaced JSON resources (`common`, `views`)
+- English and Spanish locale files under `src/locales/`
+- User-facing strings extracted from components into translation keys
+- Language selector in the nav bar; locale persisted via `usePreferencesStore`
+- `useLocale` hook syncs Zustand preference with `i18next.changeLanguage`
+- i18n initialized before React render in `main.tsx`
+
 ### Routes
 
 | Path | Page | Description |
@@ -91,7 +100,9 @@ src/
 ├── api/           # TMDB + Open Library clients
 ├── components/    # React UI (cards, layout, nav)
 ├── store/         # Zustand stores with persist (Stage 6)
-├── hooks/         # useWatchlist, useSearchMedia, useTheme
+├── i18n/          # i18next setup (Stage 7)
+├── locales/       # en/es translation JSON (Stage 7)
+├── hooks/         # useWatchlist, useSearchMedia, useTheme, useLocale
 ├── pages/         # Route-level screens (Stage 3)
 ├── routes/        # AppRoutes configuration (Stage 3)
 ├── types/         # Domain types

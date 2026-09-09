@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
+import type { AppLocale } from '../i18n';
 
 export type Theme = 'light' | 'dark';
 export type TypeFilter = 'all' | 'movie' | 'book';
@@ -8,6 +9,7 @@ export type SortOption = 'recent' | 'title' | 'rating';
 
 interface PreferencesState {
   theme: Theme;
+  locale: AppLocale;
   typeFilter: TypeFilter;
   statusFilter: StatusFilter;
   sortBy: SortOption;
@@ -16,6 +18,7 @@ interface PreferencesState {
 interface PreferencesActions {
   setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
+  setLocale: (locale: AppLocale) => void;
   setTypeFilter: (value: TypeFilter) => void;
   setStatusFilter: (value: StatusFilter) => void;
   setSortBy: (value: SortOption) => void;
@@ -44,6 +47,7 @@ export const usePreferencesStore = create<PreferencesStore>()(
     persist(
       (set) => ({
         theme: getPreferredTheme(),
+        locale: 'en',
         typeFilter: 'all',
         statusFilter: 'all',
         sortBy: 'recent',
@@ -56,6 +60,10 @@ export const usePreferencesStore = create<PreferencesStore>()(
           set((state) => ({
             theme: state.theme === 'dark' ? 'light' : 'dark',
           }));
+        },
+
+        setLocale: (locale) => {
+          set({ locale });
         },
 
         setTypeFilter: (value) => {
@@ -76,25 +84,9 @@ export const usePreferencesStore = create<PreferencesStore>()(
         migrate: (persistedState) => {
           const state = persistedState as Partial<PreferencesState> | undefined;
 
-          if (state?.theme) {
-            return state as PreferencesState;
-          }
-
-          const legacyTheme = localStorage.getItem('watchlog-theme');
-
-          if (legacyTheme === 'light' || legacyTheme === 'dark') {
-            localStorage.removeItem('watchlog-theme');
-
-            return {
-              theme: legacyTheme,
-              typeFilter: state?.typeFilter ?? 'all',
-              statusFilter: state?.statusFilter ?? 'all',
-              sortBy: state?.sortBy ?? 'recent',
-            };
-          }
-
           return {
-            theme: getPreferredTheme(),
+            theme: state?.theme ?? getPreferredTheme(),
+            locale: state?.locale ?? 'en',
             typeFilter: state?.typeFilter ?? 'all',
             statusFilter: state?.statusFilter ?? 'all',
             sortBy: state?.sortBy ?? 'recent',

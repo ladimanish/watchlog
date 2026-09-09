@@ -1,0 +1,64 @@
+{
+  "appName": "WatchLog",
+  "nav": {
+    "main": "Navegación principal",
+    "home": "Inicio",
+    "search": "Buscar",
+    "language": "Idioma",
+    "themeLight": "Cambiar a modo claro",
+    "themeDark": "Cambiar a modo oscuro",
+    "light": "Claro",
+    "dark": "Oscuro"
+  },
+  "actions": {
+    "add": "Añadir",
+    "added": "Añadido",
+    "remove": "Quitar de la lista",
+    "backToWatchlist": "Volver a la lista",
+    "startSearching": "Empezar a buscar",
+    "addMore": "+ Añadir más"
+  },
+  "media": {
+    "movie": "Película",
+    "book": "Libro",
+    "movies": "Películas",
+    "books": "Libros"
+  },
+  "status": {
+    "want": "Quiero ver",
+    "watching": "Viendo",
+    "reading": "Leyendo",
+    "done": "Completado",
+    "wantShort": "Quiero",
+    "watchingShort": "Viendo",
+    "readingShort": "Leyendo",
+    "doneShort": "Hecho",
+    "label": "Estado"
+  },
+  "filters": {
+    "all": "Todos",
+    "allStatus": "Todos los estados",
+    "inProgress": "En progreso",
+    "filterByType": "Filtrar por tipo",
+    "filterByStatus": "Filtrar por estado",
+    "sort": "Ordenar",
+    "sortRecent": "Añadidos recientemente",
+    "sortTitle": "Título A–Z",
+    "sortRating": "Mejor valorados"
+  },
+  "stats": {
+    "ariaLabel": "Estadísticas de la lista",
+    "total": "Total de elementos",
+    "completed": "Completados",
+    "completionRate": "Tasa de finalización",
+    "averageRating": "Valoración media"
+  },
+  "card": {
+    "noCover": "Sin portada",
+    "viewDetails": "Ver detalles de {{title}}"
+  },
+  "footer": {
+    "movieData": "Datos de películas de",
+    "bookData": "Datos de libros de"
+  }
+}

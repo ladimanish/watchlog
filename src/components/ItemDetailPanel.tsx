@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import {
   isBookItem,
   isMovieItem,
@@ -14,20 +15,24 @@ import { cn } from '../utils/cn';
 const MOVIE_STATUSES: WatchStatus[] = ['want', 'watching', 'done'];
 const BOOK_STATUSES: WatchStatus[] = ['want', 'reading', 'done'];
 
-const formatStatusLabel = (status: WatchStatus): string =>
-  status.charAt(0).toUpperCase() + status.slice(1);
+const STATUS_OPTION_KEYS: Record<WatchStatus, string> = {
+  want: 'status.wantShort',
+  watching: 'status.watchingShort',
+  reading: 'status.readingShort',
+  done: 'status.doneShort',
+};
 
 const ItemDetailPanel = () => {
+  const { t } = useTranslation('views');
+  const { t: tc } = useTranslation('common');
   const navigate = useNavigate();
   const { selectedItem, updateItem, removeItem } = useWatchlist();
 
   if (!selectedItem) {
     return (
       <section className="glass-panel py-12 text-center">
-        <h2 className="section-title mb-2">Select an item</h2>
-        <p className="section-subtitle">
-          Choose something from your watchlist to see full details
-        </p>
+        <h2 className="section-title mb-2">{t('detail.selectTitle')}</h2>
+        <p className="section-subtitle">{t('detail.selectDescription')}</p>
       </section>
     );
   }
@@ -63,11 +68,11 @@ const ItemDetailPanel = () => {
             <img
               className="h-64 w-full object-cover lg:h-full lg:min-h-[420px]"
               src={imageUrl}
-              alt={`${selectedItem.title} cover`}
+              alt={t('detail.coverAlt', { title: selectedItem.title })}
             />
           ) : (
             <div className="flex h-64 w-full flex-col items-center justify-center gap-3 bg-gradient-to-br from-surface-muted to-surface-elevated lg:min-h-[420px]">
-              <span className="text-sm text-text-muted">No cover available</span>
+              <span className="text-sm text-text-muted">{t('detail.noCover')}</span>
             </div>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-black/10" />
@@ -78,13 +83,13 @@ const ItemDetailPanel = () => {
             to={ROUTES.home}
             className="mb-4 inline-flex w-fit items-center gap-1 text-sm font-semibold text-component-primary transition-colors hover:text-component-primary-hover"
           >
-            ← Back to watchlist
+            ← {tc('actions.backToWatchlist')}
           </Link>
 
           <div className="mb-3 flex flex-wrap items-center gap-2">
             <StatusBadge status={selectedItem.status} />
             <span className="rounded-full bg-surface-muted px-2.5 py-0.5 text-xs font-semibold text-text-muted">
-              {isMovieItem(selectedItem) ? 'Movie' : 'Book'}
+              {isMovieItem(selectedItem) ? tc('media.movie') : tc('media.book')}
             </span>
           </div>
 
@@ -95,7 +100,7 @@ const ItemDetailPanel = () => {
           <dl className="mb-6 grid gap-3 text-sm sm:grid-cols-2">
             {isBookItem(selectedItem) && (
               <div>
-                <dt className="text-text-muted">Author</dt>
+                <dt className="text-text-muted">{t('detail.author')}</dt>
                 <dd className="font-semibold text-text-default">
                   {selectedItem.author}
                 </dd>
@@ -104,7 +109,7 @@ const ItemDetailPanel = () => {
 
             {isMovieItem(selectedItem) && (
               <div>
-                <dt className="text-text-muted">Release year</dt>
+                <dt className="text-text-muted">{t('detail.releaseYear')}</dt>
                 <dd className="font-semibold text-text-default">
                   {selectedItem.releaseYear}
                 </dd>
@@ -113,7 +118,7 @@ const ItemDetailPanel = () => {
 
             {isBookItem(selectedItem) && selectedItem.publishYear !== null && (
               <div>
-                <dt className="text-text-muted">Published</dt>
+                <dt className="text-text-muted">{t('detail.published')}</dt>
                 <dd className="font-semibold text-text-default">
                   {selectedItem.publishYear}
                 </dd>
@@ -121,7 +126,7 @@ const ItemDetailPanel = () => {
             )}
 
             <div>
-              <dt className="text-text-muted">Added</dt>
+              <dt className="text-text-muted">{t('detail.added')}</dt>
               <dd className="font-semibold text-text-default">
                 {new Date(selectedItem.dateAdded).toLocaleDateString()}
               </dd>
@@ -129,7 +134,7 @@ const ItemDetailPanel = () => {
 
             {selectedItem.dateCompleted && (
               <div>
-                <dt className="text-text-muted">Completed</dt>
+                <dt className="text-text-muted">{t('detail.completed')}</dt>
                 <dd className="font-semibold text-text-default">
                   {new Date(selectedItem.dateCompleted).toLocaleDateString()}
                 </dd>
@@ -152,7 +157,7 @@ const ItemDetailPanel = () => {
 
           <div className="mt-auto space-y-4">
             <label className="flex flex-col gap-2 text-sm font-semibold text-text-default">
-              Status
+              {tc('status.label')}
               <select
                 value={selectedItem.status}
                 onChange={handleStatusChange}
@@ -160,7 +165,7 @@ const ItemDetailPanel = () => {
               >
                 {statusOptions.map((status) => (
                   <option key={status} value={status}>
-                    {formatStatusLabel(status)}
+                    {tc(STATUS_OPTION_KEYS[status])}
                   </option>
                 ))}
               </select>
@@ -168,7 +173,9 @@ const ItemDetailPanel = () => {
 
             {selectedItem.status === 'done' && (
               <div className="flex flex-col gap-2">
-                <span className="text-sm font-semibold text-text-default">Rating</span>
+                <span className="text-sm font-semibold text-text-default">
+                  {t('detail.rating')}
+                </span>
                 <StarRatingInput
                   value={selectedItem.rating}
                   onChange={handleRatingChange}
@@ -182,7 +189,7 @@ const ItemDetailPanel = () => {
             className={cn('btn-danger mt-6 w-fit')}
             onClick={handleRemove}
           >
-            Remove from watchlist
+            {tc('actions.remove')}
           </button>
         </div>
       </div>

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { calculateStats } from '../utils/watchlistStats';
 import { useWatchlist } from '../hooks/useWatchlist';
 import { cn } from '../utils/cn';
@@ -5,7 +6,7 @@ import { cn } from '../utils/cn';
 const statCards = [
   {
     key: 'total',
-    label: 'Total items',
+    labelKey: 'stats.total',
     icon: '📚',
     accent: 'border-l-component-primary',
     valueClass: 'text-component-primary',
@@ -13,7 +14,7 @@ const statCards = [
   },
   {
     key: 'completed',
-    label: 'Completed',
+    labelKey: 'stats.completed',
     icon: '✅',
     accent: 'border-l-semantic-success',
     valueClass: 'text-semantic-success',
@@ -21,7 +22,7 @@ const statCards = [
   },
   {
     key: 'completion',
-    label: 'Completion rate',
+    labelKey: 'stats.completionRate',
     icon: '📈',
     accent: 'border-l-accent-violet',
     valueClass: 'text-accent-violet',
@@ -29,7 +30,7 @@ const statCards = [
   },
   {
     key: 'rating',
-    label: 'Average rating',
+    labelKey: 'stats.averageRating',
     icon: '⭐',
     accent: 'border-l-accent-amber',
     valueClass: 'text-accent-amber',
@@ -38,6 +39,7 @@ const statCards = [
 ] as const;
 
 const StatsBar = () => {
+  const { t } = useTranslation('common');
   const { watchlist } = useWatchlist();
   const stats = calculateStats(watchlist);
 
@@ -51,7 +53,7 @@ const StatsBar = () => {
   return (
     <section
       className="mb-6 grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4"
-      aria-label="Watchlist statistics"
+      aria-label={t('stats.ariaLabel')}
     >
       {statCards.map((card) => (
         <div
@@ -84,7 +86,7 @@ const StatsBar = () => {
               </span>
             </div>
             <span className="mb-1 block text-xs font-medium uppercase tracking-wide text-text-muted">
-              {card.label}
+              {t(card.labelKey)}
             </span>
             <span className={cn('text-2xl font-bold tabular-nums', card.valueClass)}>
               {values[card.key]}

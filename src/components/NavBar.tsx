@@ -1,11 +1,16 @@
 import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { ROUTES } from '../utils/routePaths';
 import { useTheme } from '../hooks/useTheme';
+import { useLocale } from '../hooks/useLocale';
+import { supportedLocales, type AppLocale } from '../i18n';
 import { cn } from '../utils/cn';
 import { IconMoon, IconSun } from './icons/Icons';
 
 const NavBar = () => {
+  const { t } = useTranslation('common');
   const { theme, toggleTheme } = useTheme();
+  const { locale, setLocale } = useLocale();
 
   const navLinkClass = ({ isActive }: { isActive: boolean }) =>
     cn(
@@ -19,31 +24,47 @@ const NavBar = () => {
   return (
     <nav
       className="glass-panel mb-5 flex flex-wrap items-center gap-2 !p-2"
-      aria-label="Main navigation"
+      aria-label={t('nav.main')}
     >
       <NavLink to={ROUTES.home} className={navLinkClass} end>
-        Home
+        {t('nav.home')}
       </NavLink>
 
       <NavLink to={ROUTES.search} className={navLinkClass}>
-        Search
+        {t('nav.search')}
       </NavLink>
+
+      <label className="ml-auto flex items-center gap-2 text-xs font-medium text-text-muted">
+        {t('nav.language')}
+        <select
+          value={locale}
+          onChange={(event) => setLocale(event.target.value as AppLocale)}
+          className="select-field !py-1.5 !text-xs"
+          aria-label={t('nav.language')}
+        >
+          {supportedLocales.map((option) => (
+            <option key={option} value={option}>
+              {option.toUpperCase()}
+            </option>
+          ))}
+        </select>
+      </label>
 
       <button
         type="button"
         onClick={toggleTheme}
-        className="btn-secondary ml-auto inline-flex items-center gap-2 !rounded-lg !px-3 !py-2"
-        aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+        className="btn-secondary inline-flex items-center gap-2 !rounded-lg !px-3 !py-2"
+        aria-label={theme === 'dark' ? t('nav.themeLight') : t('nav.themeDark')}
       >
         {theme === 'dark' ? (
           <>
             <IconSun />
-            Light
+            {t('nav.light')}
           </>
         ) : (
           <>
             <IconMoon />
-            Dark
+            {t('nav.dark')}
           </>
         )}
       </button>

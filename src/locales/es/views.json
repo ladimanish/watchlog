@@ -1,0 +1,53 @@
+{
+  "hero": {
+    "badge": "Tu biblioteca personal",
+    "tagline": "Sigue las películas que quieres ver y los libros que quieres leer, todo en un solo lugar."
+  },
+  "layout": {
+    "discoverAdd": "Descubrir y añadir",
+    "itemDetails": "Detalles del elemento",
+    "breadcrumbHome": "Inicio"
+  },
+  "watchlist": {
+    "title": "Mi lista",
+    "shownCount": "{{shown}} de {{total}} mostrados",
+    "loadingCovers": " · Cargando portadas…",
+    "emptyTitle": "Tu lista está vacía",
+    "emptyDescription": "Descubre películas y libros, y añádelos aquí para seguir tu progreso.",
+    "noMatchesTitle": "Ningún elemento coincide con estos filtros",
+    "noMatchesDescription": "Prueba otra combinación de filtros"
+  },
+  "search": {
+    "title": "Descubre algo nuevo",
+    "subtitle": "Busca películas en TMDB o libros en Open Library",
+    "placeholder": "Buscar por título...",
+    "queryLabel": "Consulta de búsqueda",
+    "mediaTypeLabel": "Tipo de medio",
+    "searching": "Buscando…",
+    "searchButton": "Buscar",
+    "trySearching": "Prueba buscar",
+    "noResultsTitle": "No se encontraron resultados",
+    "noResultsDescription": "Prueba otro título o cambia entre películas y libros",
+    "added": "Se añadió \"{{title}}\" a tu lista",
+    "alreadyAdded": "\"{{title}}\" ya está en tu lista",
+    "noCover": "Sin portada"
+  },
+  "detail": {
+    "selectTitle": "Selecciona un elemento",
+    "selectDescription": "Elige algo de tu lista para ver los detalles completos",
+    "coverAlt": "Portada de {{title}}",
+    "noCover": "Portada no disponible",
+    "author": "Autor",
+    "releaseYear": "Año de estreno",
+    "published": "Publicado",
+    "added": "Añadido",
+    "completed": "Completado",
+    "rating": "Valoración",
+    "notFoundTitle": "Elemento no encontrado",
+    "notFoundDescription": "Puede que se haya eliminado de tu lista o el enlace no sea válido."
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "description": "La página que buscas no existe o puede haber sido movida."
+  }
+}

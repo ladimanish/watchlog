@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import type { WatchItem } from '../types/watchlog';
 import { isBookItem, isMovieItem } from '../types/watchlog';
 import { cn } from '../utils/cn';
@@ -13,6 +14,8 @@ const SearchResultCard = ({
   alreadyAdded,
   onAdd,
 }: SearchResultCardProps) => {
+  const { t } = useTranslation('views');
+  const { t: tc } = useTranslation('common');
   const imageUrl = isMovieItem(item) ? item.posterUrl : item.coverUrl;
 
   return (
@@ -27,7 +30,7 @@ const SearchResultCard = ({
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-text-muted">
-            <span className="sr-only">No cover</span>
+            <span className="sr-only">{t('search.noCover')}</span>
           </div>
         )}
       </div>
@@ -53,7 +56,7 @@ const SearchResultCard = ({
             alreadyAdded ? 'btn-secondary !opacity-70' : 'btn-primary',
           )}
         >
-          {alreadyAdded ? 'Added' : 'Add'}
+          {alreadyAdded ? tc('actions.added') : tc('actions.add')}
         </button>
       </div>
     </li>

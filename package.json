@@ -15,8 +15,10 @@
   "license": "ISC",
   "dependencies": {
     "clsx": "^2.1.1",
+    "i18next": "^24.2.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-i18next": "^15.4.1",
     "react-router-dom": "^6.28.0",
     "tailwind-merge": "^3.6.0",
     "typescript": "^5.2.2",

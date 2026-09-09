@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import type {
   SortOption,
   StatusFilter,
@@ -33,52 +34,68 @@ const WatchlistFilters = ({
   onStatusChange,
   onSortChange,
 }: WatchlistFiltersProps) => {
+  const { t } = useTranslation('common');
+
+  const typeOptions: { value: TypeFilter; label: string }[] = [
+    { value: 'all', label: t('filters.all') },
+    { value: 'movie', label: t('media.movies') },
+    { value: 'book', label: t('media.books') },
+  ];
+
+  const statusOptions: { value: StatusFilter; label: string }[] = [
+    { value: 'all', label: t('filters.allStatus') },
+    { value: 'want', label: t('status.wantShort') },
+    { value: 'in-progress', label: t('filters.inProgress') },
+    { value: 'done', label: t('status.doneShort') },
+  ];
+
   return (
     <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-      <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by type">
-        {(['all', 'movie', 'book'] as const).map((option) => (
+      <div
+        className="flex flex-wrap gap-2"
+        role="group"
+        aria-label={t('filters.filterByType')}
+      >
+        {typeOptions.map((option) => (
           <button
-            key={option}
+            key={option.value}
             type="button"
-            className={pillClass(typeFilter === option)}
-            onClick={() => onTypeChange(option)}
+            className={pillClass(typeFilter === option.value)}
+            onClick={() => onTypeChange(option.value)}
           >
-            {option === 'all' ? 'All' : option === 'movie' ? 'Movies' : 'Books'}
+            {option.label}
           </button>
         ))}
       </div>
 
-      <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by status">
-        {(
-          [
-            ['all', 'All status'],
-            ['want', 'Want'],
-            ['in-progress', 'In progress'],
-            ['done', 'Done'],
-          ] as const
-        ).map(([option, label]) => (
+      <div
+        className="flex flex-wrap gap-2"
+        role="group"
+        aria-label={t('filters.filterByStatus')}
+      >
+        {statusOptions.map((option) => (
           <button
-            key={option}
+            key={option.value}
             type="button"
-            className={pillClass(statusFilter === option)}
-            onClick={() => onStatusChange(option)}
+            className={pillClass(statusFilter === option.value)}
+            onClick={() => onStatusChange(option.value)}
           >
-            {label}
+            {option.label}
           </button>
         ))}
       </div>
 
       <label className="flex items-center gap-2 text-xs font-medium text-text-muted">
-        Sort
+        {t('filters.sort')}
         <select
           value={sortBy}
           onChange={(event) => onSortChange(event.target.value as SortOption)}
           className="select-field !py-1.5 !text-xs"
-          aria-label="Sort watchlist"
+          aria-label={t('filters.sort')}
         >
-          <option value="recent">Recently added</option>
-          <option value="title">Title A–Z</option>
-          <option value="rating">Highest rated</option>
+          <option value="recent">{t('filters.sortRecent')}</option>
+          <option value="title">{t('filters.sortTitle')}</option>
+          <option value="rating">{t('filters.sortRating')}</option>
         </select>
       </label>
     </div>

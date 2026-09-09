@@ -8,6 +8,7 @@ describe('usePreferencesStore', () => {
     localStorage.clear();
     usePreferencesStore.setState({
       theme: 'light',
+      locale: 'en',
       typeFilter: 'all',
       statusFilter: 'all',
       sortBy: 'recent',

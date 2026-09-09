@@ -1,8 +1,12 @@
+import { useTranslation } from 'react-i18next';
+
 const AppFooter = () => {
+  const { t } = useTranslation('common');
+
   return (
     <footer className="mt-10 border-t border-border/60 pt-6 text-center text-xs text-text-muted">
       <p>
-        Movie data from{' '}
+        {t('footer.movieData')}{' '}
         <a
           href="https://www.themoviedb.org/"
           target="_blank"
@@ -12,7 +16,7 @@ const AppFooter = () => {
           TMDB
         </a>
         {' · '}
-        Book data from{' '}
+        {t('footer.bookData')}{' '}
         <a
           href="https://openlibrary.org/"
           target="_blank"

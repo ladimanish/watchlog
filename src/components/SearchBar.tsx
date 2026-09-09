@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import type { MediaType, WatchItem } from '../types/watchlog';
 import { useWatchlist } from '../hooks/useWatchlist';
 import { useSearchMedia } from '../hooks/useSearchMedia';
@@ -16,11 +17,16 @@ const SUGGESTED_SEARCHES = [
   { query: '1984', type: 'book' as MediaType },
 ];
 
+type FeedbackType = 'added' | 'duplicate';
+
 const SearchBar = () => {
+  const { t } = useTranslation('views');
+  const { t: tc } = useTranslation('common');
   const [query, setQuery] = useState('');
   const [mediaType, setMediaType] = useState<MediaType>('movie');
   const [hasSearched, setHasSearched] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState<string | null>(null);
+  const [feedbackType, setFeedbackType] = useState<FeedbackType | null>(null);
   const navigate = useNavigate();
   const { addItem, isInWatchlist } = useWatchlist();
   const { results, isLoading, error, search, clearResults } = useSearchMedia();
@@ -29,6 +35,7 @@ const SearchBar = () => {
     setQuery(searchQuery);
     setMediaType(type);
     setFeedbackMessage(null);
+    setFeedbackType(null);
     setHasSearched(true);
     void search(searchQuery, type);
   };
@@ -42,12 +49,14 @@ const SearchBar = () => {
     const added = addItem(item);
 
     if (added) {
-      setFeedbackMessage(`Added "${item.title}" to your watchlist`);
+      setFeedbackType('added');
+      setFeedbackMessage(t('search.added', { title: item.title }));
       navigate(getItemPath(item.id));
       return;
     }
 
-    setFeedbackMessage(`"${item.title}" is already in your watchlist`);
+    setFeedbackType('duplicate');
+    setFeedbackMessage(t('search.alreadyAdded', { title: item.title }));
   };
 
   const showNoResults =
@@ -56,10 +65,8 @@ const SearchBar = () => {
   return (
     <section className="glass-panel">
       <div className="mb-6">
-        <h2 className="section-title">Discover something new</h2>
-        <p className="section-subtitle">
-          Search TMDB for movies or Open Library for books
-        </p>
+        <h2 className="section-title">{t('search.title')}</h2>
+        <p className="section-subtitle">{t('search.subtitle')}</p>
       </div>
 
       <form
@@ -78,11 +85,12 @@ const SearchBar = () => {
               if (!nextQuery.trim()) {
                 setHasSearched(false);
                 setFeedbackMessage(null);
+                setFeedbackType(null);
                 clearResults();
               }
             }}
-            placeholder="Search by title..."
-            aria-label="Search query"
+            placeholder={t('search.placeholder')}
+            aria-label={t('search.queryLabel')}
             className="input-field !pl-11"
           />
         </div>
@@ -92,14 +100,15 @@ const SearchBar = () => {
           onChange={(event) => {
             setMediaType(event.target.value as MediaType);
             setFeedbackMessage(null);
+            setFeedbackType(null);
             setHasSearched(false);
             clearResults();
           }}
-          aria-label="Media type"
+          aria-label={t('search.mediaTypeLabel')}
           className="select-field sm:w-36"
         >
-          <option value="movie">Movies</option>
-          <option value="book">Books</option>
+          <option value="movie">{tc('media.movies')}</option>
+          <option value="book">{tc('media.books')}</option>
         </select>
 
         <button
@@ -107,14 +116,14 @@ const SearchBar = () => {
           disabled={isLoading || !query.trim()}
           className="btn-primary sm:min-w-[120px]"
         >
-          {isLoading ? 'Searching…' : 'Search'}
+          {isLoading ? t('search.searching') : t('search.searchButton')}
         </button>
       </form>
 
       {!hasSearched && !isLoading && (
         <div className="mb-6">
           <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-text-muted">
-            Try searching for
+            {t('search.trySearching')}
           </p>
           <div className="flex flex-wrap gap-2">
             {SUGGESTED_SEARCHES.map((suggestion) => (
@@ -141,7 +150,7 @@ const SearchBar = () => {
         <div
           className={cn(
             'mb-4 rounded-xl px-4 py-3 text-sm font-medium',
-            feedbackMessage.includes('already')
+            feedbackType === 'duplicate'
               ? 'bg-surface-muted text-text-muted'
               : 'border border-semantic-success/30 bg-semantic-success-muted text-semantic-success',
           )}
@@ -154,10 +163,8 @@ const SearchBar = () => {
 
       {showNoResults && (
         <div className="rounded-xl border border-dashed border-border bg-surface-muted/50 px-6 py-10 text-center">
-          <p className="font-medium text-text-default">No results found</p>
-          <p className="text-sm text-text-muted">
-            Try a different title or switch between movies and books
-          </p>
+          <p className="font-medium text-text-default">{t('search.noResultsTitle')}</p>
+          <p className="text-sm text-text-muted">{t('search.noResultsDescription')}</p>
         </div>
       )}
 

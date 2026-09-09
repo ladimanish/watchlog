@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import type { WatchStatus } from '../types/watchlog';
 import { cn } from '../utils/cn';
 
@@ -8,18 +9,18 @@ const STATUS_STYLES: Record<WatchStatus, string> = {
   done: 'bg-semantic-success/15 text-semantic-success ring-semantic-success/25',
 };
 
-const STATUS_LABELS: Record<WatchStatus, string> = {
-  want: 'Want to watch',
-  watching: 'Watching',
-  reading: 'Reading',
-  done: 'Completed',
+const STATUS_KEYS: Record<WatchStatus, string> = {
+  want: 'status.want',
+  watching: 'status.watching',
+  reading: 'status.reading',
+  done: 'status.done',
 };
 
-const STATUS_COMPACT_LABELS: Record<WatchStatus, string> = {
-  want: 'Want',
-  watching: 'Watching',
-  reading: 'Reading',
-  done: 'Done',
+const STATUS_COMPACT_KEYS: Record<WatchStatus, string> = {
+  want: 'status.wantShort',
+  watching: 'status.watchingShort',
+  reading: 'status.readingShort',
+  done: 'status.doneShort',
 };
 
 interface StatusBadgeProps {
@@ -29,6 +30,8 @@ interface StatusBadgeProps {
 }
 
 const StatusBadge = ({ status, compact = false, className }: StatusBadgeProps) => {
+  const { t } = useTranslation('common');
+
   return (
     <span
       className={cn(
@@ -38,7 +41,7 @@ const StatusBadge = ({ status, compact = false, className }: StatusBadgeProps) =
         className,
       )}
     >
-      {compact ? STATUS_COMPACT_LABELS[status] : STATUS_LABELS[status]}
+      {t(compact ? STATUS_COMPACT_KEYS[status] : STATUS_KEYS[status])}
     </span>
   );
 };
