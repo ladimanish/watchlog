@@ -5,7 +5,7 @@ import AppFooter from './AppFooter';
 import WatchLogLogo from './WatchLogLogo';
 import { IconLibrary } from './icons/Icons';
 import { ROUTES } from '../utils/routePaths';
-import { useWatchlist } from '../context/WatchlistContext';
+import { useWatchlist } from '../hooks/useWatchlist';
 import { cn } from '../utils/cn';
 
 const AppLayout = () => {

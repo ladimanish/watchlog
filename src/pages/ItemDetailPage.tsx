@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import ItemDetailPanel from '../components/ItemDetailPanel';
-import { useWatchlist } from '../context/WatchlistContext';
+import { useWatchlist } from '../hooks/useWatchlist';
 import { ROUTES } from '../utils/routePaths';
 
 const ItemDetailPage = () => {

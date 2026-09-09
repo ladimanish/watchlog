@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { MediaType, WatchItem } from '../types/watchlog';
-import { useWatchlist } from '../context/WatchlistContext';
+import { useWatchlist } from '../hooks/useWatchlist';
 import { useSearchMedia } from '../hooks/useSearchMedia';
 import { getItemPath } from '../utils/routePaths';
 import { cn } from '../utils/cn';

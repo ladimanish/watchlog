@@ -39,6 +39,16 @@ Personal Movie & Book Watchlist — built across the [Ui Dev Learning Path V2](h
 - Responsive stats grid, focus rings, and dark mode toggle in nav
 - Removed `App.css` — styling lives in components + `index.css`
 
+## Stage 5 — Redux state management
+
+- `@reduxjs/toolkit` store with a `watchlist` slice
+- Replaced `WatchlistContext` with Redux (`Provider` in `main.tsx`)
+- `useWatchlist` hook wraps `useAppSelector` + `useAppDispatch` (same API for components)
+- Reducers for add, remove, update, select, and image enrichment merge
+- `WatchlistImageEnrichment` handles async poster/cover fetching as a side effect
+- Typed store hooks: `useAppDispatch`, `useAppSelector`
+- Slice unit tests for core reducer behavior
+
 ### Routes
 
 | Path | Page | Description |
@@ -72,8 +82,8 @@ npm run build:app      # production React build to dist/
 src/
 ├── api/           # TMDB + Open Library clients
 ├── components/    # React UI (cards, layout, nav)
-├── context/       # WatchlistProvider + useWatchlist
-├── hooks/         # useSearchMedia, useTheme
+├── store/         # Redux store, watchlist slice, typed hooks (Stage 5)
+├── hooks/         # useWatchlist, useSearchMedia, useTheme
 ├── pages/         # Route-level screens (Stage 3)
 ├── routes/        # AppRoutes configuration (Stage 3)
 ├── types/         # Domain types

@@ -1,5 +1,5 @@
 import { calculateStats } from '../utils/watchlistStats';
-import { useWatchlist } from '../context/WatchlistContext';
+import { useWatchlist } from '../hooks/useWatchlist';
 import { cn } from '../utils/cn';
 
 const statCards = [

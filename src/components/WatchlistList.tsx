@@ -6,7 +6,7 @@ import WatchlistFilters, {
   type StatusFilter,
   type TypeFilter,
 } from './WatchlistFilters';
-import { useWatchlist } from '../context/WatchlistContext';
+import { useWatchlist } from '../hooks/useWatchlist';
 import { getItemPath, ROUTES } from '../utils/routePaths';
 import {
   filterWatchlistItems,

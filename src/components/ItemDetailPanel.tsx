@@ -4,7 +4,7 @@ import {
   type StarRating,
   type WatchStatus,
 } from '../types/watchlog';
-import { useWatchlist } from '../context/WatchlistContext';
+import { useWatchlist } from '../hooks/useWatchlist';
 import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../utils/routePaths';
 import StatusBadge from './StatusBadge';

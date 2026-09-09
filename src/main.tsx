@@ -1,9 +1,11 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import ErrorBoundary from './components/ErrorBoundary';
-import { WatchlistProvider } from './context/WatchlistContext';
+import WatchlistImageEnrichment from './components/WatchlistImageEnrichment';
+import { store } from './store';
 import './index.css';
 
 const storedTheme = localStorage.getItem('watchlog-theme');
@@ -22,11 +24,12 @@ if (!rootElement) {
 createRoot(rootElement).render(
   <StrictMode>
     <ErrorBoundary>
-      <BrowserRouter>
-        <WatchlistProvider>
+      <Provider store={store}>
+        <WatchlistImageEnrichment />
+        <BrowserRouter>
           <App />
-        </WatchlistProvider>
-      </BrowserRouter>
+        </BrowserRouter>
+      </Provider>
     </ErrorBoundary>
   </StrictMode>,
 );
