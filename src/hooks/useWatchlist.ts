@@ -1,59 +1,38 @@
 import { useCallback } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import type { MediaType, WatchItem } from '../types/watchlog';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
-  selectIsEnrichingImages,
   selectSelectedItem,
-  selectWatchlistItems,
-  watchlistActions,
+  useWatchlistStore,
   type WatchlistUpdate,
-} from '../store/watchlistSlice';
+} from '../store/useWatchlistStore';
 
 export type { WatchlistUpdate };
 
 export const useWatchlist = () => {
-  const dispatch = useAppDispatch();
-  const watchlist = useAppSelector(selectWatchlistItems);
-  const selectedItem = useAppSelector(selectSelectedItem);
-  const isEnrichingImages = useAppSelector(selectIsEnrichingImages);
+  const {
+    watchlist,
+    selectedItem,
+    isEnrichingImages,
+    addItemAction,
+    removeItem,
+    selectItem,
+    updateItem,
+  } = useWatchlistStore(
+    useShallow((state) => ({
+      watchlist: state.items,
+      selectedItem: selectSelectedItem(state),
+      isEnrichingImages: state.isEnrichingImages,
+      addItemAction: state.addItem,
+      removeItem: state.removeItem,
+      selectItem: state.selectItem,
+      updateItem: state.updateItem,
+    })),
+  );
 
   const addItem = useCallback(
-    (item: WatchItem): boolean => {
-      const isDuplicate = watchlist.some(
-        (existing) =>
-          existing.externalId === item.externalId &&
-          existing.type === item.type,
-      );
-
-      if (isDuplicate) {
-        return false;
-      }
-
-      dispatch(watchlistActions.addItem(item));
-      return true;
-    },
-    [dispatch, watchlist],
-  );
-
-  const removeItem = useCallback(
-    (id: string) => {
-      dispatch(watchlistActions.removeItem(id));
-    },
-    [dispatch],
-  );
-
-  const selectItem = useCallback(
-    (id: string | null) => {
-      dispatch(watchlistActions.selectItem(id));
-    },
-    [dispatch],
-  );
-
-  const updateItem = useCallback(
-    (id: string, updates: WatchlistUpdate) => {
-      dispatch(watchlistActions.updateItem({ id, updates }));
-    },
-    [dispatch],
+    (item: WatchItem): boolean => addItemAction(item),
+    [addItemAction],
   );
 
   const isInWatchlist = useCallback(

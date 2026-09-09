@@ -1,8 +1,11 @@
+import type {
+  SortOption,
+  StatusFilter,
+  TypeFilter,
+} from '../store/usePreferencesStore';
 import { cn } from '../utils/cn';
 
-export type TypeFilter = 'all' | 'movie' | 'book';
-export type StatusFilter = 'all' | 'want' | 'in-progress' | 'done';
-export type SortOption = 'recent' | 'title' | 'rating';
+export type { SortOption, StatusFilter, TypeFilter };
 
 interface WatchlistFiltersProps {
   typeFilter: TypeFilter;

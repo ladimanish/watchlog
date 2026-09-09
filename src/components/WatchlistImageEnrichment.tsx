@@ -1,20 +1,29 @@
 import { useEffect } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { isBookItem, isMovieItem } from '../types/watchlog';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import {
-  selectEnrichmentAttemptedIds,
-  selectWatchlistItems,
-  watchlistActions,
-} from '../store/watchlistSlice';
+import { useWatchlistStore } from '../store/useWatchlistStore';
 import {
   enrichWatchlistImages,
   watchlistImageChanged,
 } from '../utils/enrichWatchlistImages';
 
 const WatchlistImageEnrichment = () => {
-  const dispatch = useAppDispatch();
-  const watchlist = useAppSelector(selectWatchlistItems);
-  const enrichmentAttemptedIds = useAppSelector(selectEnrichmentAttemptedIds);
+  const {
+    watchlist,
+    enrichmentAttemptedIds,
+    markEnrichmentAttempted,
+    mergeEnrichedItems,
+    setIsEnrichingImages,
+  } = useWatchlistStore(
+    useShallow((state) => ({
+      watchlist: state.items,
+      enrichmentAttemptedIds: state.enrichmentAttemptedIds,
+      markEnrichmentAttempted: state.markEnrichmentAttempted,
+      mergeEnrichedItems: state.mergeEnrichedItems,
+      setIsEnrichingImages: state.setIsEnrichingImages,
+    })),
+  );
+
   useEffect(() => {
     const itemsToEnrich = watchlist.filter((item) => {
       const needsImage =
@@ -28,14 +37,10 @@ const WatchlistImageEnrichment = () => {
       return;
     }
 
-    dispatch(
-      watchlistActions.markEnrichmentAttempted(
-        itemsToEnrich.map((item) => item.id),
-      ),
-    );
+    markEnrichmentAttempted(itemsToEnrich.map((item) => item.id));
 
     const controller = new AbortController();
-    dispatch(watchlistActions.setIsEnrichingImages(true));
+    setIsEnrichingImages(true);
 
     void enrichWatchlistImages(itemsToEnrich, controller.signal)
       .then((enrichedItems) => {
@@ -49,20 +54,26 @@ const WatchlistImageEnrichment = () => {
         });
 
         if (changedItems.length > 0) {
-          dispatch(watchlistActions.mergeEnrichedItems(changedItems));
+          mergeEnrichedItems(changedItems);
         }
       })
       .finally(() => {
         if (!controller.signal.aborted) {
-          dispatch(watchlistActions.setIsEnrichingImages(false));
+          setIsEnrichingImages(false);
         }
       });
 
     return () => {
       controller.abort();
-      dispatch(watchlistActions.setIsEnrichingImages(false));
+      setIsEnrichingImages(false);
     };
-  }, [dispatch, enrichmentAttemptedIds, watchlist]);
+  }, [
+    enrichmentAttemptedIds,
+    markEnrichmentAttempted,
+    mergeEnrichedItems,
+    setIsEnrichingImages,
+    watchlist,
+  ]);
 
   return null;
 };

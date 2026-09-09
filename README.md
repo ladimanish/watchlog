@@ -41,13 +41,21 @@ Personal Movie & Book Watchlist — built across the [Ui Dev Learning Path V2](h
 
 ## Stage 5 — Redux state management
 
-- `@reduxjs/toolkit` store with a `watchlist` slice
+- `@reduxjs/toolkit` store with a `watchlist` slice (see branch `stage-5`)
 - Replaced `WatchlistContext` with Redux (`Provider` in `main.tsx`)
-- `useWatchlist` hook wraps `useAppSelector` + `useAppDispatch` (same API for components)
+- `useWatchlist` hook wrapped `useAppSelector` + `useAppDispatch`
 - Reducers for add, remove, update, select, and image enrichment merge
-- `WatchlistImageEnrichment` handles async poster/cover fetching as a side effect
-- Typed store hooks: `useAppDispatch`, `useAppSelector`
 - Slice unit tests for core reducer behavior
+
+## Stage 6 — Zustand state management
+
+- `zustand` stores replace Redux for runtime state (`useWatchlistStore`, `usePreferencesStore`)
+- `persist` middleware saves watchlist + UI preferences to `localStorage`
+- `useShallow` selectors avoid unnecessary re-renders when reading multiple fields
+- Watchlist actions unchanged at the hook layer (`useWatchlist` keeps the same API)
+- Theme + filter/sort preferences moved from local `useState` / `useTheme` into Zustand
+- `WatchlistImageEnrichment` reads store actions directly (no Redux `Provider`)
+- Store unit tests for watchlist mutations and preference updates
 
 ### Routes
 
@@ -82,7 +90,7 @@ npm run build:app      # production React build to dist/
 src/
 ├── api/           # TMDB + Open Library clients
 ├── components/    # React UI (cards, layout, nav)
-├── store/         # Redux store, watchlist slice, typed hooks (Stage 5)
+├── store/         # Zustand stores with persist (Stage 6)
 ├── hooks/         # useWatchlist, useSearchMedia, useTheme
 ├── pages/         # Route-level screens (Stage 3)
 ├── routes/        # AppRoutes configuration (Stage 3)

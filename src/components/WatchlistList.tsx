@@ -1,12 +1,10 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useShallow } from 'zustand/react/shallow';
 import WatchItemCard from './WatchItemCard';
-import WatchlistFilters, {
-  type SortOption,
-  type StatusFilter,
-  type TypeFilter,
-} from './WatchlistFilters';
+import WatchlistFilters from './WatchlistFilters';
 import { useWatchlist } from '../hooks/useWatchlist';
+import { usePreferencesStore } from '../store/usePreferencesStore';
 import { getItemPath, ROUTES } from '../utils/routePaths';
 import {
   filterWatchlistItems,
@@ -18,9 +16,23 @@ const WatchlistList = () => {
   const navigate = useNavigate();
   const { watchlist, selectedId, removeItem, selectItem, isEnrichingImages } =
     useWatchlist();
-  const [typeFilter, setTypeFilter] = useState<TypeFilter>('all');
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
-  const [sortBy, setSortBy] = useState<SortOption>('recent');
+  const {
+    typeFilter,
+    statusFilter,
+    sortBy,
+    setTypeFilter,
+    setStatusFilter,
+    setSortBy,
+  } = usePreferencesStore(
+    useShallow((state) => ({
+      typeFilter: state.typeFilter,
+      statusFilter: state.statusFilter,
+      sortBy: state.sortBy,
+      setTypeFilter: state.setTypeFilter,
+      setStatusFilter: state.setStatusFilter,
+      setSortBy: state.setSortBy,
+    })),
+  );
 
   const filteredItems = useMemo(() => {
     const filtered = filterWatchlistItems(watchlist, typeFilter, statusFilter);

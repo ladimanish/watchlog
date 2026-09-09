@@ -1,19 +1,22 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import ErrorBoundary from './components/ErrorBoundary';
 import WatchlistImageEnrichment from './components/WatchlistImageEnrichment';
-import { store } from './store';
+import {
+  applyThemeToDocument,
+  usePreferencesStore,
+} from './store/usePreferencesStore';
 import './index.css';
 
-const storedTheme = localStorage.getItem('watchlog-theme');
-const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+applyThemeToDocument(usePreferencesStore.getState().theme);
 
-if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
-  document.documentElement.classList.add('dark');
-}
+usePreferencesStore.subscribe((state, previousState) => {
+  if (state.theme !== previousState.theme) {
+    applyThemeToDocument(state.theme);
+  }
+});
 
 const rootElement = document.getElementById('root');
 
@@ -24,12 +27,10 @@ if (!rootElement) {
 createRoot(rootElement).render(
   <StrictMode>
     <ErrorBoundary>
-      <Provider store={store}>
-        <WatchlistImageEnrichment />
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </Provider>
+      <WatchlistImageEnrichment />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </ErrorBoundary>
   </StrictMode>,
 );
