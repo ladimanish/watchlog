@@ -64,7 +64,26 @@ Personal Movie & Book Watchlist — built across the [Ui Dev Learning Path V2](h
 - User-facing strings extracted from components into translation keys
 - Language selector in the nav bar; locale persisted via `usePreferencesStore`
 - `useLocale` hook syncs Zustand preference with `i18next.changeLanguage`
-- i18n initialized before React render in `main.tsx`
+- i18n initialized before React render via `initWatchLogApp`
+
+## Stage 8 — Webpack + Module Federation
+
+- Webpack 5 replaces Vite as the primary dev/build toolchain (`webpack.config.js`)
+- `ModuleFederationPlugin` exposes `./WatchLogModule` as `remoteEntry.js`
+- Async bootstrap entry (`index.tsx` → `bootstrap.tsx`) for federated chunk loading
+- Shared singletons: `react`, `react-dom`, `react-router-dom`, `i18next`, `react-i18next`, `zustand`
+- Minimal host shell under `host/` demonstrates consuming the remote (`npm run dev:host`)
+- Vite scripts kept as `dev:vite` / `build:vite` for comparison
+
+### Module Federation
+
+| Remote name | Exposed module | Purpose |
+|-------------|----------------|---------|
+| `watchlog` | `./WatchLogModule` | Full app with router, error boundary, and providers |
+
+**Standalone:** `npm run dev` → http://localhost:5173
+
+**Host + remote:** run `npm run dev` in one terminal, then `npm run dev:host` → http://localhost:5174
 
 ### Routes
 
@@ -80,10 +99,11 @@ Personal Movie & Book Watchlist — built across the [Ui Dev Learning Path V2](h
 ```bash
 npm install
 cp .env.example .env   # add VITE_TMDB_API_KEY for movie search
-npm run dev            # start React app at http://localhost:5173
-npm test               # run Stage 1 unit tests
+npm run dev            # Webpack dev server at http://localhost:5173
+npm run dev:host       # host shell at http://localhost:5174 (remote must be running)
+npm test               # run unit tests
 npm run build          # compile TypeScript to lib/
-npm run build:app      # production React build to dist/
+npm run build:app      # production Webpack build to dist/
 ```
 
 ## Environment
@@ -103,6 +123,7 @@ src/
 ├── i18n/          # i18next setup (Stage 7)
 ├── locales/       # en/es translation JSON (Stage 7)
 ├── hooks/         # useWatchlist, useSearchMedia, useTheme, useLocale
+├── host/          # Module Federation host shell demo (Stage 8)
 ├── pages/         # Route-level screens (Stage 3)
 ├── routes/        # AppRoutes configuration (Stage 3)
 ├── types/         # Domain types
