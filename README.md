@@ -2,6 +2,63 @@
 
 Personal Movie & Book Watchlist — built across the [Ui Dev Learning Path V2](https://cursor.com/dashboard/shared-canvases?shareId=canvas-rPgifNPjn3STTCymygeWmTu-).
 
+## Quick start
+
+### 1. Install and configure
+
+```bash
+npm install
+cp .env.example .env
+```
+
+Edit `.env` and set your TMDB API key (required for **movie** search only):
+
+```bash
+VITE_TMDB_API_KEY=your_actual_key_here
+```
+
+Get a free key from [TMDB](https://developer.themoviedb.org). Book search uses Open Library and needs no key.
+
+### 2. Start the dev server
+
+```bash
+npm run dev
+```
+
+Open **http://localhost:5173**
+
+### 3. Use the app
+
+| Page | URL | What to do |
+|------|-----|------------|
+| Home | `/` | View watchlist, filter by type/status, sort, open items |
+| Search | `/search` | Search movies or books and add to your watchlist |
+| Item detail | `/item/:id` | Update status/rating or remove an item |
+
+**Typical flow:** Search → pick Movies or Books → search (e.g. `Inception`, `Dune`) → **Add** → view/edit on the detail page. Use the nav bar to switch **light/dark** theme and **EN/ES** language. Your watchlist and preferences persist in `localStorage` after refresh.
+
+### 4. Optional — Module Federation host demo
+
+Run the remote and host in two terminals:
+
+```bash
+# Terminal 1 — WatchLog remote
+npm run dev
+
+# Terminal 2 — host shell (loads remote from port 5173)
+npm run dev:host
+```
+
+Open **http://localhost:5174**
+
+### Troubleshooting
+
+| Issue | Fix |
+|-------|-----|
+| Movie search fails | Check `VITE_TMDB_API_KEY` in `.env`, then restart `npm run dev` |
+| Book search works, movies don't | TMDB key missing or invalid |
+| Port 5173 in use | Stop the other process or change the port in `webpack.config.js` |
+
 ## Stage 1 — TypeScript utility library
 
 - TypeScript data model (movies + books, status, ratings)
