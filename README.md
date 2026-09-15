@@ -88,8 +88,8 @@ Personal Movie & Book Watchlist — built across the [Ui Dev Learning Path V2](h
 ## Stage 9 — RTL + MSW component tests
 
 - `@testing-library/react` + `@testing-library/user-event` for component behavior tests
-- `msw` (Mock Service Worker) intercepts TMDB and Open Library API calls in tests
-- Jest multi-project setup: `*.test.ts` (node) and `*.test.tsx` (jsdom)
+- `msw` (Mock Service Worker v1) intercepts TMDB and Open Library API calls in tests
+- Jest multi-project setup: `*.test.ts` (node) and `*.test.tsx` (`@happy-dom/jest-environment`)
 - `renderWithProviders` wraps components with `MemoryRouter` and i18n
 - `resetTestStores` resets Zustand + `localStorage` between tests
 - Component coverage: `WatchItemCard`, `WatchlistFilters`, `StatusBadge`, `SearchBar`
