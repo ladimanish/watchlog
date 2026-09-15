@@ -1,13 +1,46 @@
 {
-  "preset": "ts-jest",
-  "testEnvironment": "node",
-  "setupFiles": ["<rootDir>/jest.setup.ts"],
-  "roots": ["<rootDir>/src"],
-  "testMatch": ["**/*.test.ts"],
-  "testPathIgnorePatterns": ["/node_modules/", "/dist/"],
+  "projects": [
+    {
+      "displayName": "unit",
+      "preset": "ts-jest",
+      "testEnvironment": "node",
+      "setupFiles": ["<rootDir>/jest.setup.ts"],
+      "roots": ["<rootDir>/src"],
+      "testMatch": ["**/*.test.ts"],
+      "testPathIgnorePatterns": ["/node_modules/", "/dist/"]
+    },
+    {
+      "displayName": "component",
+      "preset": "ts-jest",
+      "testEnvironment": "@happy-dom/jest-environment",
+      "setupFiles": ["<rootDir>/jest.setup.ts"],
+      "setupFilesAfterEnv": ["<rootDir>/jest.setup.dom.js"],
+      "roots": ["<rootDir>/src"],
+      "testMatch": ["**/*.test.tsx"],
+      "testPathIgnorePatterns": ["/node_modules/", "/dist/"],
+      "transform": {
+        "^.+\\.tsx?$": [
+          "ts-jest",
+          {
+            "tsconfig": {
+              "jsx": "react-jsx",
+              "types": ["jest", "@testing-library/jest-dom", "node"]
+            }
+          }
+        ]
+      },
+      "moduleNameMapper": {
+        "\\.(css|less|scss)$": "<rootDir>/src/test-utils/styleMock.ts"
+      }
+    }
+  ],
   "collectCoverageFrom": [
-    "src/**/*.ts",
+    "src/**/*.{ts,tsx}",
     "!src/**/*.d.ts",
-    "!src/__fixtures__/**"
+    "!src/__fixtures__/**",
+    "!src/test-utils/**",
+    "!src/mocks/**",
+    "!src/bootstrap.tsx",
+    "!src/index.tsx"
   ]
 }

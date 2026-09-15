@@ -85,6 +85,15 @@ Personal Movie & Book Watchlist — built across the [Ui Dev Learning Path V2](h
 
 **Host + remote:** run `npm run dev` in one terminal, then `npm run dev:host` → http://localhost:5174
 
+## Stage 9 — RTL + MSW component tests
+
+- `@testing-library/react` + `@testing-library/user-event` for component behavior tests
+- `msw` (Mock Service Worker) intercepts TMDB and Open Library API calls in tests
+- Jest multi-project setup: `*.test.ts` (node) and `*.test.tsx` (jsdom)
+- `renderWithProviders` wraps components with `MemoryRouter` and i18n
+- `resetTestStores` resets Zustand + `localStorage` between tests
+- Component coverage: `WatchItemCard`, `WatchlistFilters`, `StatusBadge`, `SearchBar`
+
 ### Routes
 
 | Path | Page | Description |
@@ -101,7 +110,8 @@ npm install
 cp .env.example .env   # add VITE_TMDB_API_KEY for movie search
 npm run dev            # Webpack dev server at http://localhost:5173
 npm run dev:host       # host shell at http://localhost:5174 (remote must be running)
-npm test               # run unit tests
+npm test               # unit + component tests (Jest projects)
+npm run test:coverage  # with coverage report
 npm run build          # compile TypeScript to lib/
 npm run build:app      # production Webpack build to dist/
 ```
@@ -124,6 +134,8 @@ src/
 ├── locales/       # en/es translation JSON (Stage 7)
 ├── hooks/         # useWatchlist, useSearchMedia, useTheme, useLocale
 ├── host/          # Module Federation host shell demo (Stage 8)
+├── mocks/         # MSW handlers for component tests (Stage 9)
+├── test-utils/    # renderWithProviders, store reset (Stage 9)
 ├── pages/         # Route-level screens (Stage 3)
 ├── routes/        # AppRoutes configuration (Stage 3)
 ├── types/         # Domain types
